@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operación 14.13 💘</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0;
+  font-family:'Press Start 2P', cursive;
+  background: linear-gradient(180deg,#ff8ecf,#b784f7);
+  color:white;
+  text-align:center;
+  overflow:hidden;
+}
+.screen{
+  display:none;
+  height:100vh;
+  padding:30px 20px;
+  box-sizing:border-box;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+.active{
+  display:flex;
+}
+button{
+  margin:15px;
+  padding:15px 20px;
+  font-family:'Press Start 2P', cursive;
+  border:none;
+  border-radius:12px;
+  font-size:12px;
+  cursor:pointer;
+  background:white;
+  color:#b30086;
+}
+input{
+  padding:10px;
+  margin-top:20px;
+  font-family:'Press Start 2P', cursive;
+  font-size:10px;
+  text-align:center;
+}
+.hidden{display:none;}
+.door{
+  margin:10px;
+  padding:15px;
+  border:2px solid white;
+  border-radius:10px;
+  cursor:pointer;
+}
+#confetti{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+}
+.small{font-size:10px;margin-top:15px;}
+</style>
+</head>
+<body>
+
+<div id="confetti"></div>
+
+<!-- Pantalla 1 -->
+<div class="screen active" id="screen1">
+  <h3>¿Quieres ser mi 14 de febrero por 13va vez?</h3>
+  <button onclick="goTo('screen2')">💗 Sí</button>
+  <button onclick="noButton()">💔 No</button>
+  <p id="noMessage" class="hidden small"></p>
+</div>
+
+<!-- Pantalla 2 -->
+<div class="screen" id="screen2">
+  <p>Desde el 11 de enero de 2013 hay una palabra que no está en el diccionario...<br><br>
+  pero significa hogar, risa y amor.<br><br>
+  ¿Cuál es?</p>
+  <input type="text" id="answer" placeholder="Escribe aquí">
+  <button onclick="checkAnswer()">Responder</button>
+  <p id="result" class="small"></p>
+</div>
+
+<!-- Pantalla 3 -->
+<div class="screen" id="screen3">
+  <p>
+  No eres casualidad.<br><br>
+  Eres decisión diaria.<br><br>
+  Mi lugar favorito.<br><br>
+  Y próximamente...<br><br>
+  mi compañera de hogar.
+  </p>
+  <button onclick="goTo('screen4')">Siguiente Nivel</button>
+</div>
+
+<!-- Pantalla 4 -->
+<div class="screen" id="screen4">
+  <p>Nivel 4: Encuentra nuestro destino</p>
+  <div class="door" onclick="wrongDoor()">💭 Recuerdos</div>
+  <div class="door" onclick="wrongDoor()">❤️ Amor</div>
+  <div class="door" onclick="wrongDoor()">🌎 Futuro</div>
+  <div class="door" onclick="correctDoor()">🏠 Hogar</div>
+  <p id="doorMessage" class="small"></p>
+</div>
+
+<!-- Pantalla Final -->
+<div class="screen" id="screen5">
+  <p id="counter"></p>
+  <p>
+  Confirmar misión:<br><br>
+  Construir hogar + seguir amándonos.
+  </p>
+  <button onclick="celebrate()">💗 Aceptar el siguiente nivel</button>
+</div>
+
+<script>
+function goTo(screen){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(screen).classList.add('active');
+}
+
+function noButton(){
+  let msg=document.getElementById("noMessage");
+  msg.classList.remove("hidden");
+  msg.innerHTML="Error 14.exe<br>No te libras aún de mí 😉";
+}
+
+function checkAnswer(){
+  let val=document.getElementById("answer").value.toLowerCase().trim();
+  let result=document.getElementById("result");
+  if(val==="beibii"){
+    result.innerHTML="Exacto, Beibii. Siempre tú 💘";
+    setTimeout(()=>goTo('screen3'),1500);
+  }else{
+    result.innerHTML="Incorrecto... pista: no es baby 👀";
+  }
+}
+
+function wrongDoor(){
+  document.getElementById("doorMessage").innerHTML="Ese camino es bonito... pero no es nuestro destino.";
+}
+
+function correctDoor(){
+  document.getElementById("doorMessage").innerHTML="Spoiler del 2026: Un apartamento, dos cepillos de dientes y cero planes de soltarnos 🏠💘";
+  setTimeout(()=>goTo('screen5'),2000);
+}
+
+function celebrate(){
+  const conf=document.getElementById("confetti");
+  for(let i=0;i<100;i++){
+    let span=document.createElement("span");
+    span.innerHTML="💗";
+    span.style.position="absolute";
+    span.style.left=Math.random()*100+"%";
+    span.style.top=Math.random()*100+"%";
+    span.style.fontSize="20px";
+    conf.appendChild(span);
+  }
+}
+
+function calculateDays(){
+  const start=new Date("2013-01-11");
+  const today=new Date();
+  const diff=Math.floor((today-start)/(1000*60*60*24));
+  document.getElementById("counter").innerHTML=
+  "Desde el 11/01/2013 han pasado<br><br>"+diff+" días juntos 💘";
+}
+calculateDays();
+</script>
+
+</body>
+</html>
