@@ -1,143 +1,263 @@
-[11:10 p.m., 10/2/2026] Angelo Delgado: <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Angelo y Daniely 💖</title>
+<title>Operación 14ª 💘</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
+
 body{
-margin:0;
-font-family:'Courier New',monospace;
-background:linear-gradient(to bottom,#ff8ac6,#b784f7);
-text-align:center;
-color:white;
-overflow:hidden;
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
+  margin:0;
+  font-family:'Press Start 2P', cursive;
+  background: linear-gradient(180deg,#ff8ecf,#b784f7);
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
 }
 
-h1{font-size:22px;margin-bottom:10px;}
-h2{font-size:20px;padding:0 20px;}
-
-#contador{
-margin:15px;
-font-size:14px;
+.screen{
+  display:none;
+  min-height:100vh;
+  padding:40px 20px 120px 20px;
+  box-sizing:border-box;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
 }
 
-.buttons{
-position:relative;
-width:100%;
-height:120px;
-display:flex;
-justify-content:center;
-align-items:center;
-gap:20px;
-}
+.active{display:flex;}
 
 button{
-padding:14px 22px;
-font-size:18px;
-border:none;
-border-radius:15px;
-cursor:pointer;…
-[11:14 p.m., 10/2/2026] Angelo Delgado: <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Angelo & Daniely ❤️</title>
-
-<style>
-body {
-    margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #ff7eb3, #8e44ad);
-    font-family: 'Courier New', monospace;
-    text-align: center;
-    overflow: hidden;
+  margin:15px;
+  padding:14px 18px;
+  font-family:'Press Start 2P', cursive;
+  border:none;
+  border-radius:14px;
+  font-size:12px;
+  cursor:pointer;
+  background:white;
+  color:#b30086;
 }
 
-.container {
-    color: white;
+.small{font-size:10px;margin-top:15px;}
+
+.door{
+  margin:10px;
+  padding:14px;
+  border:2px solid white;
+  border-radius:12px;
+  cursor:pointer;
 }
 
-h1 {
-    font-size: 26px;
+#musicBtn{
+  position:fixed;
+  top:10px;
+  right:10px;
+  font-size:10px;
+  z-index:10;
 }
 
-button {
-    padding: 15px 30px;
-    font-size: 18px;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    margin: 10px;
-    transition: 0.3s;
+.floating-heart{
+  position:fixed;
+  bottom:-20px;
+  animation:rise 8s linear infinite;
+  opacity:0.5;
+  font-size:18px;
 }
 
-#yesBtn {
-    background: white;
+@keyframes rise{
+  from{transform:translateY(0);}
+  to{transform:translateY(-110vh);}
 }
 
-#noBtn {
-    background: hotpink;
-    color: white;
-    position: absolute;
+.pixel-art{
+  display:grid;
+  grid-template-columns: repeat(12, 18px);
+  grid-template-rows: repeat(12, 18px);
+  gap:2px;
+  margin-top:20px;
 }
 
-.hidden {
-    display: none;
+.pixel{
+  width:18px;
+  height:18px;
+  background:#ff4da6;
+  opacity:0;
+  transition:opacity 0.3s;
 }
+
 </style>
 </head>
-
 <body>
 
-<div class="container">
-    <h1>💖 Angelo & Daniely 💖</h1>
-    <h2 id="question">
-        ¿Quieres ser mi 14.a vez este 14 de febrero, Daniely? 💘
-    </h2>
+<button id="musicBtn" onclick="toggleMusic()">🎵 Música</button>
 
-    <div id="buttons">
-        <button id="yesBtn">Sí 😍</button>
-        <button id="noBtn">No 😏</button>
-    </div>
+<audio id="bgMusic" loop>
+<source src="https://assets.mixkit.co/music/preview/mixkit-romantic-game-over-2052.mp3" type="audio/mpeg">
+</audio>
 
-    <h2 id="finalMessage" class="hidden">
-        🎉 Sabía que dirías que sí ❤️  
-        Te amo demasiado Daniely 💕
-    </h2>
+<!-- PANTALLA 1 -->
+<div class="screen active" id="screen1">
+<h3 id="typeText"></h3>
+<button onclick="goTo('screen2')">💗 Sí</button>
+<button id="noBtn" onclick="moveNo()">💔 No</button>
+<p id="noMessage" class="small"></p>
+</div>
+
+<!-- PANTALLA 2 -->
+<div class="screen" id="screen2">
+<p>Desde el 11 de enero de 2013 hay una palabra que no está en el diccionario...<br><br>
+pero significa hogar, risa y amor.<br><br>
+¿Cuál es?</p>
+<input type="text" id="answer">
+<button onclick="checkAnswer()">Responder</button>
+<p id="result" class="small"></p>
+</div>
+
+<!-- PANTALLA 3 -->
+<div class="screen" id="screen3">
+<p>No eres casualidad.<br><br>
+Eres decisión diaria.<br><br>
+Mi lugar favorito.<br><br>
+Y próximamente...<br><br>
+mi compañera de hogar.</p>
+<button onclick="goTo('screen4')">Siguiente</button>
+</div>
+
+<!-- PANTALLA 4 -->
+<div class="screen" id="screen4">
+<p>Encuentra nuestro destino</p>
+<div class="door" onclick="wrongDoor()">💭 Recuerdos</div>
+<div class="door" onclick="wrongDoor()">❤️ Amor</div>
+<div class="door" onclick="wrongDoor()">🌎 Futuro</div>
+<div class="door" onclick="correctDoor()">🏠 Hogar</div>
+<p id="doorMessage" class="small"></p>
+</div>
+
+<!-- PUZZLE -->
+<div class="screen" id="screen5">
+<p>Descubre nuestro futuro pixelado 💘</p>
+<div class="pixel-art" id="pixelArt"></div>
+<button onclick="goTo('screen6')">Continuar</button>
+</div>
+
+<!-- FINAL -->
+<div class="screen" id="screen6">
+<p id="counter"></p>
+<p>Confirmar misión:<br><br>
+Construir hogar + seguir amándonos.</p>
+<button onclick="celebrate()">💗 Aceptar</button>
 </div>
 
 <script>
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const finalMessage = document.getElementById("finalMessage");
-const question = document.getElementById("question");
-const buttons = document.getElementById("buttons");
 
-// Mover botón NO
-noBtn.addEventListener("click", () => {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+// Máquina escribir
+let text="¿Quieres ser mi 14.ª vez este 14 de febrero?";
+let i=0;
+function typeWriter(){
+  if(i<text.length){
+    document.getElementById("typeText").innerHTML+=text.charAt(i);
+    i++;
+    setTimeout(typeWriter,40);
+  }
+}
+typeWriter();
+
+// Música
+function toggleMusic(){
+  let music=document.getElementById("bgMusic");
+  if(music.paused){
+    music.play();
+  }else{
+    music.pause();
+  }
+}
+
+// Botón No se mueve
+function moveNo(){
+  let btn=document.getElementById("noBtn");
+  btn.style.position="relative";
+  btn.style.left=(Math.random()*100-50)+"px";
+  btn.style.top=(Math.random()*50-25)+"px";
+  document.getElementById("noMessage").innerHTML="No te libras tan fácil 😌";
+}
+
+// Navegación
+function goTo(screen){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(screen).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// Acertijo
+function checkAnswer(){
+  let val=document.getElementById("answer").value.toLowerCase().trim();
+  if(val==="beibii"){
+    document.getElementById("result").innerHTML="Exacto, Beibii 💘";
+    setTimeout(()=>goTo('screen3'),2000);
+  }else{
+    document.getElementById("result").innerHTML="Pista: no es baby 👀";
+  }
+}
+
+// Puertas
+function wrongDoor(){
+  document.getElementById("doorMessage").innerHTML="Ese camino es bonito... pero aún no es hogar.";
+}
+
+function correctDoor(){
+  document.getElementById("doorMessage").innerHTML="Nuestro apartamento. Dos cepillos. Una cocina pequeña. Y cero planes de soltarnos 🏠💘";
+  setTimeout(()=>goTo('screen5'),3000);
+}
+
+// Pixel art real (pareja + casa + camino)
+let pattern=[
+0,0,0,1,1,0,0,1,1,0,0,0,
+0,0,1,1,1,1,1,1,1,1,0,0,
+0,1,1,0,1,1,1,1,0,1,1,0,
+0,1,0,0,1,1,1,1,0,0,1,0,
+0,0,0,0,0,1,1,0,0,0,0,0,
+0,0,0,1,1,1,1,1,1,0,0,0,
+0,0,1,1,0,0,0,0,1,1,0,0,
+0,1,1,0,0,0,0,0,0,1,1,0,
+1,1,0,0,0,0,0,0,0,0,1,1,
+0,0,0,0,1,1,1,1,0,0,0,0,
+0,0,0,1,1,1,1,1,1,0,0,0,
+0,0,1,1,1,1,1,1,1,1,0,0
+];
+
+let art=document.getElementById("pixelArt");
+pattern.forEach(val=>{
+  let px=document.createElement("div");
+  px.className="pixel";
+  if(val===1){
+    px.onclick=function(){px.style.opacity=1;}
+  }else{
+    px.style.background="transparent";
+  }
+  art.appendChild(px);
 });
 
-// Botón SI
-yesBtn.addEventListener("click", () => {
-    question.classList.add("hidden");
-    buttons.classList.add("hidden");
-    finalMessage.classList.remove("hidden");
-});
+// Contador
+const start=new Date("2013-01-11");
+const today=new Date();
+const diff=Math.floor((today-start)/(1000*60*60*24));
+document.getElementById("counter").innerHTML=
+"Desde el 11/01/2013 han pasado<br><br>"+diff+" días juntos 💘";
+
+// Confetti
+function celebrate(){
+  for(let i=0;i<40;i++){
+    let heart=document.createElement("div");
+    heart.innerHTML="💗";
+    heart.className="floating-heart";
+    heart.style.left=Math.random()*100+"%";
+    document.body.appendChild(heart);
+  }
+}
+
 </script>
 
 </body>
