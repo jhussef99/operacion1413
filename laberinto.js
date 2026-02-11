@@ -115,7 +115,7 @@ function iniciarLaberinto() {
                     <p style="margin-top:20px;font-size:12px;max-width:300px;">
                         No importa cuántas vueltas demos,<br>
                         siempre elegimos el mismo destino:<br><br>
-                        Nuestro hogar 🏡✨
+                        Ser feliz juntos 🏡✨
                     </p>
 
                     <button onclick="explosionAmor()" 
