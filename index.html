@@ -59,6 +59,21 @@ button{
   z-index:10;
 }
 
+.pixel-art{
+  display:grid;
+  grid-template-columns: repeat(16, 16px);
+  grid-template-rows: repeat(16, 16px);
+  gap:2px;
+  margin-top:20px;
+}
+
+.pixel{
+  width:16px;
+  height:16px;
+  opacity:0;
+  transition:opacity 0.15s;
+}
+
 .floating-heart{
   position:fixed;
   bottom:-20px;
@@ -70,22 +85,6 @@ button{
 @keyframes rise{
   from{transform:translateY(0);}
   to{transform:translateY(-110vh);}
-}
-
-.pixel-art{
-  display:grid;
-  grid-template-columns: repeat(12, 18px);
-  grid-template-rows: repeat(12, 18px);
-  gap:2px;
-  margin-top:20px;
-}
-
-.pixel{
-  width:18px;
-  height:18px;
-  background:#ff4da6;
-  opacity:0;
-  transition:opacity 0.2s;
 }
 </style>
 </head>
@@ -102,7 +101,8 @@ button{
 <div class="screen active" id="screen1">
 <h3 id="typeText"></h3>
 <button onclick="goTo('screen2')">💖 Sí</button>
-<button>💔 No</button>
+<button onclick="noMessage()">💔 No</button>
+<p id="noText" class="small"></p>
 </div>
 
 <!-- PANTALLA 2 -->
@@ -138,7 +138,7 @@ mi compañera de hogar 🏠✨</p>
 
 <!-- PIXEL -->
 <div class="screen" id="screen5">
-<p>Angelo 💘 Daniely<br><br>Descubre nuestro futuro pixelado ✨</p>
+<p>Descubre nuestro futuro pixelado 💖</p>
 <div class="pixel-art" id="pixelArt"></div>
 <button onclick="goTo('screen6')">Continuar 💗</button>
 </div>
@@ -148,15 +148,19 @@ mi compañera de hogar 🏠✨</p>
 <p id="counter"></p>
 <p>Confirmar misión:<br><br>
 Construir hogar 🏠<br>
-Viajar ✈️<br>
-Y seguir amándonos infinito ♾️💘</p>
+Y amarnos infinito ♾️💘</p>
+
+<input type="text" id="secretCode" placeholder="Clave secreta 🔐">
+<button onclick="checkSecret()">Desbloquear</button>
+<p id="secretMessage" class="small"></p>
+
 <button onclick="celebrate()">💖 Aceptar</button>
 </div>
 
 <script>
 
-// Máquina escribir personalizada
-let text="💘 Angelo quiere saber algo muy importante... 💘";
+// TEXTO INICIAL
+let text="¿Quieres ser mi 14.º 14 de febrero por 14.ª vez, Beibii? 💘";
 let i=0;
 function typeWriter(){
   if(i<text.length){
@@ -167,14 +171,15 @@ function typeWriter(){
 }
 typeWriter();
 
+function noMessage(){
+  document.getElementById("noText").innerHTML="No te vas a librar de mí 😌";
+}
+
 // Música
 function toggleMusic(){
   let music=document.getElementById("bgMusic");
-  if(music.paused){
-    music.play();
-  }else{
-    music.pause();
-  }
+  if(music.paused){ music.play(); }
+  else{ music.pause(); }
 }
 
 // Navegación
@@ -191,11 +196,11 @@ function goTo(screen){
 // Acertijo
 function checkAnswer(){
   let val=document.getElementById("answer").value.toLowerCase().trim();
-  if(val==="daniely"){
-    document.getElementById("result").innerHTML="Exacto 💖 Daniely";
+  if(val==="beibii"){
+    document.getElementById("result").innerHTML="Exacto 💖 Beibii";
     setTimeout(()=>goTo('screen3'),2000);
   }else{
-    document.getElementById("result").innerHTML="Pista: Es tu nombre hermoso 😌";
+    document.getElementById("result").innerHTML="Pista: No es baby 👀";
   }
 }
 
@@ -209,27 +214,32 @@ function correctDoor(){
   setTimeout(()=>goTo('screen5'),2500);
 }
 
-// Pixel Art automático
+// PIXEL ART CORAZÓN + CASA
 let pattern=[
-0,0,0,1,1,0,0,1,1,0,0,0,
-0,0,1,1,1,1,1,1,1,1,0,0,
-0,1,1,0,1,1,1,1,0,1,1,0,
-0,1,0,0,1,1,1,1,0,0,1,0,
-0,0,0,0,0,1,1,0,0,0,0,0,
-0,0,0,1,1,1,1,1,1,0,0,0,
-0,0,1,1,0,0,0,0,1,1,0,0,
-0,1,1,0,0,0,0,0,0,1,1,0,
-1,1,0,0,0,0,0,0,0,0,1,1,
-0,0,0,0,1,1,1,1,0,0,0,0,
-0,0,0,1,1,1,1,1,1,0,0,0,
-0,0,1,1,1,1,1,1,1,1,0,0
+0,1,1,0,0,0,0,0,0,0,0,1,1,0,0,0,
+1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,
+1,1,1,1,1,0,0,0,0,1,1,1,1,1,0,0,
+0,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,
+0,0,1,1,1,1,1,0,1,1,1,1,0,0,0,0,
+0,0,0,1,1,1,1,1,1,1,1,0,0,0,0,0,
+0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,
+0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,
+
+0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,
+0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,
+0,0,0,0,1,1,0,1,0,1,1,0,0,0,0,0,
+0,0,0,1,1,1,0,1,0,1,1,1,0,0,0,0,
+0,0,1,1,1,1,0,1,0,1,1,1,1,0,0,0,
+0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0
 ];
 
 let art=document.getElementById("pixelArt");
 pattern.forEach(val=>{
   let px=document.createElement("div");
   px.className="pixel";
-  if(val===0){px.style.background="transparent";}
+  px.style.background=val? "#ff2e9f":"transparent";
   art.appendChild(px);
 });
 
@@ -245,10 +255,10 @@ function revealPixelArt(){
     }else{
       clearInterval(interval);
     }
-  },30);
+  },20);
 }
 
-// Contador en tiempo REAL
+// Contador en tiempo real
 const start=new Date("2013-01-11T00:00:00");
 
 function updateCounter(){
@@ -267,9 +277,20 @@ function updateCounter(){
   minutes+" minutos<br>"+
   seconds+" segundos juntos 💖";
 }
-
 setInterval(updateCounter,1000);
 updateCounter();
+
+// MENSAJE SECRETO
+function checkSecret(){
+  let code=document.getElementById("secretCode").value.trim();
+  if(code==="110113"){
+    document.getElementById("secretMessage").innerHTML=
+    "11•01•13 ♾️ Angelo & Daniely 💘";
+  }else{
+    document.getElementById("secretMessage").innerHTML=
+    "Clave incorrecta 😏";
+  }
+}
 
 // Celebración
 function celebrate(){
