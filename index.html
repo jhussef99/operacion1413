@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Operación 14ª 💘</title>
+<title>Angelo 💘 Daniely</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
-
 body{
   margin:0;
   font-family:'Press Start 2P', cursive;
@@ -62,8 +62,8 @@ button{
 .floating-heart{
   position:fixed;
   bottom:-20px;
-  animation:rise 8s linear infinite;
-  opacity:0.5;
+  animation:rise 6s linear infinite;
+  opacity:0.7;
   font-size:18px;
 }
 
@@ -85,30 +85,29 @@ button{
   height:18px;
   background:#ff4da6;
   opacity:0;
-  transition:opacity 0.3s;
+  transition:opacity 0.2s;
 }
-
 </style>
 </head>
+
 <body>
 
 <button id="musicBtn" onclick="toggleMusic()">🎵 Música</button>
 
 <audio id="bgMusic" loop>
-<source src="https://assets.mixkit.co/music/preview/mixkit-romantic-game-over-2052.mp3" type="audio/mpeg">
+<source src="musica.mp3" type="audio/mpeg">
 </audio>
 
 <!-- PANTALLA 1 -->
 <div class="screen active" id="screen1">
 <h3 id="typeText"></h3>
-<button onclick="goTo('screen2')">💗 Sí</button>
-<button id="noBtn" onclick="moveNo()">💔 No</button>
-<p id="noMessage" class="small"></p>
+<button onclick="goTo('screen2')">💖 Sí</button>
+<button>💔 No</button>
 </div>
 
 <!-- PANTALLA 2 -->
 <div class="screen" id="screen2">
-<p>Desde el 11 de enero de 2013 hay una palabra que no está en el diccionario...<br><br>
+<p>Desde el 11 de enero de 2013 existe una palabra que no está en el diccionario... 💌<br><br>
 pero significa hogar, risa y amor.<br><br>
 ¿Cuál es?</p>
 <input type="text" id="answer">
@@ -118,17 +117,18 @@ pero significa hogar, risa y amor.<br><br>
 
 <!-- PANTALLA 3 -->
 <div class="screen" id="screen3">
-<p>No eres casualidad.<br><br>
+<p>Daniely 💕<br><br>
+No eres casualidad.<br><br>
 Eres decisión diaria.<br><br>
 Mi lugar favorito.<br><br>
 Y próximamente...<br><br>
-mi compañera de hogar.</p>
-<button onclick="goTo('screen4')">Siguiente</button>
+mi compañera de hogar 🏠✨</p>
+<button onclick="goTo('screen4')">Siguiente ➡️</button>
 </div>
 
 <!-- PANTALLA 4 -->
 <div class="screen" id="screen4">
-<p>Encuentra nuestro destino</p>
+<p>Encuentra nuestro destino 💞</p>
 <div class="door" onclick="wrongDoor()">💭 Recuerdos</div>
 <div class="door" onclick="wrongDoor()">❤️ Amor</div>
 <div class="door" onclick="wrongDoor()">🌎 Futuro</div>
@@ -136,25 +136,27 @@ mi compañera de hogar.</p>
 <p id="doorMessage" class="small"></p>
 </div>
 
-<!-- PUZZLE -->
+<!-- PIXEL -->
 <div class="screen" id="screen5">
-<p>Descubre nuestro futuro pixelado 💘</p>
+<p>Angelo 💘 Daniely<br><br>Descubre nuestro futuro pixelado ✨</p>
 <div class="pixel-art" id="pixelArt"></div>
-<button onclick="goTo('screen6')">Continuar</button>
+<button onclick="goTo('screen6')">Continuar 💗</button>
 </div>
 
 <!-- FINAL -->
 <div class="screen" id="screen6">
 <p id="counter"></p>
 <p>Confirmar misión:<br><br>
-Construir hogar + seguir amándonos.</p>
-<button onclick="celebrate()">💗 Aceptar</button>
+Construir hogar 🏠<br>
+Viajar ✈️<br>
+Y seguir amándonos infinito ♾️💘</p>
+<button onclick="celebrate()">💖 Aceptar</button>
 </div>
 
 <script>
 
-// Máquina escribir
-let text="¿Quieres ser mi 14.ª vez este 14 de febrero?";
+// Máquina escribir personalizada
+let text="💘 Angelo quiere saber algo muy importante... 💘";
 let i=0;
 function typeWriter(){
   if(i<text.length){
@@ -175,44 +177,39 @@ function toggleMusic(){
   }
 }
 
-// Botón No se mueve
-function moveNo(){
-  let btn=document.getElementById("noBtn");
-  btn.style.position="relative";
-  btn.style.left=(Math.random()*100-50)+"px";
-  btn.style.top=(Math.random()*50-25)+"px";
-  document.getElementById("noMessage").innerHTML="No te libras tan fácil 😌";
-}
-
 // Navegación
 function goTo(screen){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(screen).classList.add('active');
   window.scrollTo(0,0);
+
+  if(screen==="screen5"){
+    revealPixelArt();
+  }
 }
 
 // Acertijo
 function checkAnswer(){
   let val=document.getElementById("answer").value.toLowerCase().trim();
-  if(val==="beibii"){
-    document.getElementById("result").innerHTML="Exacto, Beibii 💘";
+  if(val==="daniely"){
+    document.getElementById("result").innerHTML="Exacto 💖 Daniely";
     setTimeout(()=>goTo('screen3'),2000);
   }else{
-    document.getElementById("result").innerHTML="Pista: no es baby 👀";
+    document.getElementById("result").innerHTML="Pista: Es tu nombre hermoso 😌";
   }
 }
 
 // Puertas
 function wrongDoor(){
-  document.getElementById("doorMessage").innerHTML="Ese camino es bonito... pero aún no es hogar.";
+  document.getElementById("doorMessage").innerHTML="Ese camino es bonito... pero aún no es hogar 🏠";
 }
 
 function correctDoor(){
   document.getElementById("doorMessage").innerHTML="Nuestro apartamento. Dos cepillos. Una cocina pequeña. Y cero planes de soltarnos 🏠💘";
-  setTimeout(()=>goTo('screen5'),3000);
+  setTimeout(()=>goTo('screen5'),2500);
 }
 
-// Pixel art real (pareja + casa + camino)
+// Pixel Art automático
 let pattern=[
 0,0,0,1,1,0,0,1,1,0,0,0,
 0,0,1,1,1,1,1,1,1,1,0,0,
@@ -232,24 +229,51 @@ let art=document.getElementById("pixelArt");
 pattern.forEach(val=>{
   let px=document.createElement("div");
   px.className="pixel";
-  if(val===1){
-    px.onclick=function(){px.style.opacity=1;}
-  }else{
-    px.style.background="transparent";
-  }
+  if(val===0){px.style.background="transparent";}
   art.appendChild(px);
 });
 
-// Contador
-const start=new Date("2013-01-11");
-const today=new Date();
-const diff=Math.floor((today-start)/(1000*60*60*24));
-document.getElementById("counter").innerHTML=
-"Desde el 11/01/2013 han pasado<br><br>"+diff+" días juntos 💘";
+function revealPixelArt(){
+  let pixels=document.querySelectorAll(".pixel");
+  let index=0;
+  let interval=setInterval(()=>{
+    if(index<pixels.length){
+      if(pattern[index]===1){
+        pixels[index].style.opacity=1;
+      }
+      index++;
+    }else{
+      clearInterval(interval);
+    }
+  },30);
+}
 
-// Confetti
+// Contador en tiempo REAL
+const start=new Date("2013-01-11T00:00:00");
+
+function updateCounter(){
+  const now=new Date();
+  const diff=now-start;
+
+  const days=Math.floor(diff/(1000*60*60*24));
+  const hours=Math.floor((diff/(1000*60*60))%24);
+  const minutes=Math.floor((diff/(1000*60))%60);
+  const seconds=Math.floor((diff/1000)%60);
+
+  document.getElementById("counter").innerHTML=
+  "Angelo 💘 Daniely<br><br>"+
+  days+" días<br>"+
+  hours+" horas<br>"+
+  minutes+" minutos<br>"+
+  seconds+" segundos juntos 💖";
+}
+
+setInterval(updateCounter,1000);
+updateCounter();
+
+// Celebración
 function celebrate(){
-  for(let i=0;i<40;i++){
+  for(let i=0;i<50;i++){
     let heart=document.createElement("div");
     heart.innerHTML="💗";
     heart.className="floating-heart";
@@ -257,7 +281,6 @@ function celebrate(){
     document.body.appendChild(heart);
   }
 }
-
 </script>
 
 </body>
