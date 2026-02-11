@@ -1,4 +1,41 @@
-<!DOCTYPE html>
+[10:54 a.m., 11/2/2026] Angelo Delgado: <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angelo 💘 Daniely</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Press Start 2P', cursive;
+  background: linear-gradient(180deg,#ff8ecf,#b784f7);
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+.screen{
+  display:none;
+  min-height:100vh;
+  padding:40px 20px 120px 20px;
+  box-sizing:border-box;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+}
+
+.active{display:flex;}
+
+button{
+  margin:15px;
+  padding:14px 18px;
+  font-family:'Press Start 2P', cursive;
+  border:none;
+  border-radius…
+[11:07 a.m., 11/2/2026] Angelo Delgado: <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -41,9 +78,14 @@ button{
   color:#b30086;
 }
 
+button:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
+
 .small{font-size:10px;margin-top:15px;}
 
-.door{
+.option{
   margin:10px;
   padding:14px;
   border:2px solid white;
@@ -57,49 +99,6 @@ button{
   right:10px;
   font-size:10px;
   z-index:10;
-}
-
-.pixel-art{
-  display:grid;
-  grid-template-columns: repeat(16, 16px);
-  grid-template-rows: repeat(16, 16px);
-  gap:2px;
-  margin-top:20px;
-}
-
-.pixel{
-  width:16px;
-  height:16px;
-  opacity:0;
-  transition:all 0.2s;
-}
-
-.glow{
-  box-shadow:0 0 10px #fff,0 0 20px #ff2e9f,0 0 35px #ff2e9f;
-}
-
-.firework{
-  position:fixed;
-  font-size:22px;
-  animation:explode 1s ease-out forwards;
-}
-
-@keyframes explode{
-  0%{transform:scale(0);opacity:1;}
-  100%{transform:scale(2.5);opacity:0;}
-}
-
-.floating-heart{
-  position:fixed;
-  bottom:-20px;
-  animation:rise 6s linear infinite;
-  opacity:0.7;
-  font-size:18px;
-}
-
-@keyframes rise{
-  from{transform:translateY(0);}
-  to{transform:translateY(-110vh);}
 }
 </style>
 </head>
@@ -141,26 +140,22 @@ con quien quiero un hogar 🏠✨</p>
 <button onclick="goTo('screen4')">Siguiente ➡️</button>
 </div>
 
-<!-- PANTALLA 4 -->
+<!-- NUEVA PANTALLA 4 -->
 <div class="screen" id="screen4">
-<p>Encuentra nuestro destino 💞</p>
-<div class="door" onclick="wrongDoor()">💭 Recuerdos</div>
-<div class="door" onclick="wrongDoor()">❤️ Amor</div>
-<div class="door" onclick="wrongDoor()">🌎 Futuro</div>
-<div class="door" onclick="correctDoor()">🏠 Hogar</div>
-<p id="doorMessage" class="small"></p>
-</div>
+<p>El próximo 14 de febrero dónde viviremos?</p>
 
-<!-- PIXEL -->
-<div class="screen" id="screen5">
-<p>Descubre nuestro infinito 💖</p>
-<div class="pixel-art" id="pixelArt"></div>
-<button onclick="goTo('screen6')">Continuar 💗</button>
+<div class="option" onclick="chooseOption('suegros')">Casa de los suegros 😶‍🌫️</div>
+<div class="option" onclick="chooseOption('oscar')">Cuarto en casa de Óscar 🤣</div>
+<div class="option" onclick="chooseOption('casita')">Nuestra casita 💞</div>
+<div class="option" onclick="chooseOption('twingo')">En el Twingo 🚗</div>
+
+<p id="optionMessage" class="small"></p>
 </div>
 
 <!-- FINAL -->
 <div class="screen" id="screen6">
 <p id="counter"></p>
+
 <p>Lista para completar la misión:<br><br>
 Construir hogar 🏠<br>
 Y amarnos infinito ♾️💘</p>
@@ -169,7 +164,7 @@ Y amarnos infinito ♾️💘</p>
 <button onclick="checkSecret()">Desbloquear</button>
 <p id="secretMessage" class="small"></p>
 
-<button onclick="celebrate()">💖 Aceptar</button>
+<button id="acceptBtn" onclick="celebrate()" disabled>💖 Aceptar</button>
 </div>
 
 <!-- PANTALLA SECRETA -->
@@ -197,25 +192,18 @@ function noMessage(){
   document.getElementById("noText").innerHTML="No te vas a librar de mí 😌";
 }
 
-// Música
 function toggleMusic(){
   let music=document.getElementById("bgMusic");
   if(music.paused){ music.play(); }
   else{ music.pause(); }
 }
 
-// Navegación
 function goTo(screen){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(screen).classList.add('active');
   window.scrollTo(0,0);
-
-  if(screen==="screen5"){
-    revealPixelArt();
-  }
 }
 
-// Acertijo con primer intento especial
 let attempts=0;
 
 function checkAnswer(){
@@ -223,74 +211,30 @@ function checkAnswer(){
   attempts++;
 
   if(val==="beibii"){
-    if(attempts===1){
-      document.getElementById("result").innerHTML="¡Perfecto al primer intento! 😍 Eres oficialmente mi Beibii favorita 💘";
-    }else{
-      document.getElementById("result").innerHTML="Exacto 💖 Beibii";
-    }
-    setTimeout(()=>goTo('screen3'),2500);
+    document.getElementById("result").innerHTML="Exacto 💖 Beibii";
+    setTimeout(()=>goTo('screen3'),2000);
   }else{
     document.getElementById("result").innerHTML="Pista: No es baby 👀";
   }
 }
 
-// Puertas
-function wrongDoor(){
-  document.getElementById("doorMessage").innerHTML="Ese camino es bonito... pero aún no es hogar 🏠";
-}
+// NUEVA LÓGICA PANTALLA 4
+function chooseOption(option){
+  let msg=document.getElementById("optionMessage");
 
-function correctDoor(){
-  document.getElementById("doorMessage").innerHTML="Nuestro apartamento. Dos cepillos. Una cocina pequeña. Y cero planes de soltarnos 🏠💘";
-  setTimeout(()=>goTo('screen5'),2500);
-}
-
-// INFINITO PIXEL ART
-let pattern=[
-0,0,0,0,1,1,1,0,0,1,1,1,0,0,0,0,
-0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,
-0,0,1,1,1,0,0,1,1,0,0,1,1,1,0,0,
-0,1,1,1,0,0,0,1,1,0,0,0,1,1,1,0,
-0,1,1,0,0,0,0,1,1,0,0,0,0,1,1,0,
-0,1,1,1,0,0,0,1,1,0,0,0,1,1,1,0,
-0,0,1,1,1,0,0,1,1,0,0,1,1,1,0,0,
-0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,
-0,0,0,0,1,1,1,0,0,1,1,1,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-];
-
-let art=document.getElementById("pixelArt");
-pattern.forEach(val=>{
-  let px=document.createElement("div");
-  px.className="pixel";
-  px.style.background=val? "#ff2e9f":"transparent";
-  if(val===1){
-    px.onclick=function(){
-      px.classList.add("glow");
-      setTimeout(()=>px.classList.remove("glow"),600);
-    };
+  if(option==="suegros"){
+    msg.innerHTML="28 años son suficiente sin pagar alquiler 🤣❌";
   }
-  art.appendChild(px);
-});
-
-function revealPixelArt(){
-  let pixels=document.querySelectorAll(".pixel");
-  let index=0;
-  let interval=setInterval(()=>{
-    if(index<pixels.length){
-      if(pattern[index]===1){
-        pixels[index].style.opacity=1;
-      }
-      index++;
-    }else{
-      clearInterval(interval);
-    }
-  },20);
+  else if(option==="oscar"){
+    msg.innerHTML="Deberíamos más bien quitarle la casa completa 🥷🏻";
+  }
+  else if(option==="twingo"){
+    msg.innerHTML="Tendríamos bastante espacio para la cama pero está difícil ir al baño jajajaja";
+  }
+  else if(option==="casita"){
+    msg.innerHTML="Correcto 💞 Nuestro hogar comienza con nosotros.";
+    setTimeout(()=>goTo('screen6'),2000);
+  }
 }
 
 // CONTADOR
@@ -315,39 +259,29 @@ function updateCounter(){
 setInterval(updateCounter,1000);
 updateCounter();
 
-// MENSAJE SECRETO
+// CLAVE OBLIGATORIA
+let unlocked=false;
+
 function checkSecret(){
   let code=document.getElementById("secretCode").value.trim();
+
   if(code==="110113"){
     document.getElementById("secretMessage").innerHTML=
-    "11•01•13 ♾️ Angelo & Daniely 💘";
+    "veamos que tantas vueltas das en la siguiente misión";
+    unlocked=true;
+    document.getElementById("acceptBtn").disabled=false;
   }else{
     document.getElementById("secretMessage").innerHTML="Clave incorrecta 😏";
+    unlocked=false;
+    document.getElementById("acceptBtn").disabled=true;
   }
 }
 
-// CELEBRACIÓN
 function celebrate(){
-
-  let emojis=["💗","💖","💘","💞","✨"];
-
-  for(let i=0;i<40;i++){
-    let fw=document.createElement("div");
-    fw.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
-    fw.className="firework";
-    fw.style.left=Math.random()*100+"%";
-    fw.style.top=Math.random()*80+"%";
-    document.body.appendChild(fw);
-    setTimeout(()=>fw.remove(),1000);
-  }
-
-  if(navigator.vibrate){
-    navigator.vibrate([200,100,200]);
-  }
-
-  setTimeout(()=>goTo('secretScreen'),2000);
+  if(!unlocked) return;
+  goTo('secretScreen');
 }
 </script>
-<script src="laberinto.js"></script>
+
 </body>
 </html>
