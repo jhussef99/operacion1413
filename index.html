@@ -95,7 +95,7 @@ button{
 <button id="musicBtn" onclick="toggleMusic()">🎵 Música</button>
 
 <audio id="bgMusic" loop>
-<source src="https://assets.mixkit.co/music/preview/mixkit-romantic-game-over-2052.mp3" type="audio/mpeg">
+  <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
 <!-- PANTALLA 1 -->
@@ -137,12 +137,16 @@ mi compañera de hogar.</p>
 </div>
 
 <!-- PUZZLE -->
-<div class="screen" id="screen5">
-<p>Descubre nuestro futuro pixelado 💘</p>
-<div class="pixel-art" id="pixelArt"></div>
-<button onclick="goTo('screen6')">Continuar</button>
-</div>
-
+<div id="pixelArt" style="display:none; font-family: monospace; white-space: pre; font-size: 8px; line-height: 8px; text-align:center; margin-top:20px;">
+🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫
+🟫🏠🏠🏠🟫🟫🟫🟫🌤🟫🟫🟫🟫
+🟫🏠❤️🏠🟫🟫🟫🟫🌤🟫🟫🟫🟫
+🟫🏠🏠🏠🟫🟫🟫🟫🌤🟫🟫🟫🟫
+🟫🟫🟫🟫🟫🟫🟫🟫🌤🟫🟫🟫🟫
+🟫🟫👩🏻‍❤️‍👨🏻🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫
+🟫🟫🟫🟫🟫🛤🛤🛤🛤🛤🛤🟫🟫
+🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫
+  </div>
 <!-- FINAL -->
 <div class="screen" id="screen6">
 <p id="counter"></p>
@@ -259,6 +263,11 @@ function celebrate(){
 }
 
 </script>
+const music = document.getElementById("bgMusic");
 
+document.addEventListener("click", function iniciarMusica() {
+    music.play().catch(() => {});
+    document.removeEventListener("click", iniciarMusica);
+});
 </body>
 </html>
