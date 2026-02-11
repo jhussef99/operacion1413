@@ -71,7 +71,22 @@ button{
   width:16px;
   height:16px;
   opacity:0;
-  transition:opacity 0.15s;
+  transition:all 0.2s;
+}
+
+.glow{
+  box-shadow:0 0 10px #fff,0 0 20px #ff2e9f,0 0 35px #ff2e9f;
+}
+
+.firework{
+  position:fixed;
+  font-size:22px;
+  animation:explode 1s ease-out forwards;
+}
+
+@keyframes explode{
+  0%{transform:scale(0);opacity:1;}
+  100%{transform:scale(2.5);opacity:0;}
 }
 
 .floating-heart{
@@ -138,7 +153,7 @@ mi compañera de hogar 🏠✨</p>
 
 <!-- PIXEL -->
 <div class="screen" id="screen5">
-<p>Descubre nuestro futuro pixelado 💖</p>
+<p>Descubre nuestro infinito 💖</p>
 <div class="pixel-art" id="pixelArt"></div>
 <button onclick="goTo('screen6')">Continuar 💗</button>
 </div>
@@ -155,6 +170,13 @@ Y amarnos infinito ♾️💘</p>
 <p id="secretMessage" class="small"></p>
 
 <button onclick="celebrate()">💖 Aceptar</button>
+</div>
+
+<!-- PANTALLA SECRETA -->
+<div class="screen" id="secretScreen">
+<h2>Angelo + Daniely ♾️</h2>
+<p>11•01•13 ∞</p>
+<p>Proyecto siguiente: Nuestro hogar 🏠💘</p>
 </div>
 
 <script>
@@ -193,12 +215,20 @@ function goTo(screen){
   }
 }
 
-// Acertijo
+// Acertijo con primer intento especial
+let attempts=0;
+
 function checkAnswer(){
   let val=document.getElementById("answer").value.toLowerCase().trim();
+  attempts++;
+
   if(val==="beibii"){
-    document.getElementById("result").innerHTML="Exacto 💖 Beibii";
-    setTimeout(()=>goTo('screen3'),2000);
+    if(attempts===1){
+      document.getElementById("result").innerHTML="¡Perfecto al primer intento! 😍 Eres oficialmente mi Beibii favorita 💘";
+    }else{
+      document.getElementById("result").innerHTML="Exacto 💖 Beibii";
+    }
+    setTimeout(()=>goTo('screen3'),2500);
   }else{
     document.getElementById("result").innerHTML="Pista: No es baby 👀";
   }
@@ -214,7 +244,7 @@ function correctDoor(){
   setTimeout(()=>goTo('screen5'),2500);
 }
 
-// PIXEL ART CORAZÓN + CASA
+// INFINITO PIXEL ART
 let pattern=[
 0,0,0,0,1,1,1,0,0,1,1,1,0,0,0,0,
 0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,
@@ -239,6 +269,12 @@ pattern.forEach(val=>{
   let px=document.createElement("div");
   px.className="pixel";
   px.style.background=val? "#ff2e9f":"transparent";
+  if(val===1){
+    px.onclick=function(){
+      px.classList.add("glow");
+      setTimeout(()=>px.classList.remove("glow"),600);
+    };
+  }
   art.appendChild(px);
 });
 
@@ -257,7 +293,7 @@ function revealPixelArt(){
   },20);
 }
 
-// Contador en tiempo real
+// CONTADOR
 const start=new Date("2013-01-11T00:00:00");
 
 function updateCounter(){
@@ -286,20 +322,30 @@ function checkSecret(){
     document.getElementById("secretMessage").innerHTML=
     "11•01•13 ♾️ Angelo & Daniely 💘";
   }else{
-    document.getElementById("secretMessage").innerHTML=
-    "Clave incorrecta 😏";
+    document.getElementById("secretMessage").innerHTML="Clave incorrecta 😏";
   }
 }
 
-// Celebración
+// CELEBRACIÓN
 function celebrate(){
-  for(let i=0;i<50;i++){
-    let heart=document.createElement("div");
-    heart.innerHTML="💗";
-    heart.className="floating-heart";
-    heart.style.left=Math.random()*100+"%";
-    document.body.appendChild(heart);
+
+  let emojis=["💗","💖","💘","💞","✨"];
+
+  for(let i=0;i<40;i++){
+    let fw=document.createElement("div");
+    fw.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+    fw.className="firework";
+    fw.style.left=Math.random()*100+"%";
+    fw.style.top=Math.random()*80+"%";
+    document.body.appendChild(fw);
+    setTimeout(()=>fw.remove(),1000);
   }
+
+  if(navigator.vibrate){
+    navigator.vibrate([200,100,200]);
+  }
+
+  setTimeout(()=>goTo('secretScreen'),2000);
 }
 </script>
 
