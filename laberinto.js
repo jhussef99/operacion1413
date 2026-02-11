@@ -10,7 +10,7 @@ function iniciarLaberinto() {
     container.style.color = "white";
     container.innerHTML = `
         <h2>🏡 Encuentra nuestro hogar 🏡</h2>
-        <canvas id="mazeCanvas" width="280" height="280" style="background:#111;border-radius:15px;"></canvas>
+        <canvas id="mazeCanvas" width="270" height="270" style="background:#111;border-radius:15px;"></canvas>
         <div style="margin-top:20px;">
             <button onclick="mover('up')">⬆️</button><br>
             <button onclick="mover('left')">⬅️</button>
@@ -25,52 +25,42 @@ function iniciarLaberinto() {
     const canvas = document.getElementById("mazeCanvas");
     const ctx = canvas.getContext("2d");
 
-    const tileSize = 30; // más pequeño porque ahora es más grande
+    const tileSize = 30;
 
-const maze = [
-[1,1,1,1,1,1,1,1,1],
-[1,0,0,0,1,0,0,0,1],
-[1,0,1,0,1,0,1,0,1],
-[1,0,1,0,0,0,1,0,1],
-[1,0,1,1,1,0,1,0,1],
-[1,0,0,0,1,0,1,0,1],
-[1,1,1,0,1,0,1,0,1],
-[1,0,0,0,0,0,1,0,1],
-[1,1,1,1,1,1,1,1,1]
-];
+    const maze = [
+        [1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,1,0,0,0,1],
+        [1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,0,0,1,0,1],
+        [1,0,1,1,1,0,1,0,1],
+        [1,0,0,0,1,0,1,0,1],
+        [1,1,1,0,1,0,1,0,1],
+        [1,0,0,0,0,0,1,0,1],
+        [1,1,1,1,1,1,1,1,1]
+    ];
 
-let player = { x:1, y:1 };
-const goal = { x:7, y:7 };
+    let player = { x:1, y:1 };
+    const goal = { x:7, y:7 };
 
     function draw(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
 
         for(let y=0;y<maze.length;y++){
             for(let x=0;x<maze[y].length;x++){
-                if(maze[newY][newX]===1){
-
-    if(navigator.vibrate) navigator.vibrate(100);
-
-    document.getElementById("mensajeMaze").innerText="Mmm… intenta otro camino 😏";
-
-    setTimeout(()=> 
-        document.getElementById("mensajeMaze").innerText=""
-    ,800);
-
-    return; // no reinicia, solo bloquea el movimiento
-}
+                if(maze[y][x]===1){
                     ctx.fillStyle="#333";
                     ctx.fillRect(x*tileSize,y*tileSize,tileSize,tileSize);
                 }
             }
         }
 
-        ctx.font="28px Arial";
-        ctx.fillText("👫🏻",player.x*tileSize+4,player.y*tileSize+32);
-        ctx.fillText("🏡",goal.x*tileSize+4,goal.y*tileSize+32);
+        ctx.font="24px Arial";
+        ctx.fillText("👫🏻",player.x*tileSize+4,player.y*tileSize+24);
+        ctx.fillText("🏡",goal.x*tileSize+4,goal.y*tileSize+24);
     }
 
     window.mover=function(direction){
+
         let newX=player.x;
         let newY=player.y;
 
@@ -79,15 +69,29 @@ const goal = { x:7, y:7 };
         if(direction==="left") newX--;
         if(direction==="right") newX++;
 
+        // Seguridad límites
+        if(!maze[newY] || maze[newY][newX]===undefined) return;
+
+        // Si es pared → bloquea pero NO reinicia
         if(maze[newY][newX]===1){
-            if(navigator.vibrate) navigator.vibrate(150);
-            player={x:1,y:1};
-            document.getElementById("mensajeMaze").innerText="Ese no es el camino 😏";
-            setTimeout(()=>document.getElementById("mensajeMaze").innerText="",1000);
-        }else{
-            player.x=newX;
-            player.y=newY;
-            if(player.x===goal.x && player.y===goal.y) ganar();
+
+            if(navigator.vibrate) navigator.vibrate(100);
+
+            document.getElementById("mensajeMaze").innerText="Mmm… intenta otro camino 😏";
+
+            setTimeout(()=>{
+                document.getElementById("mensajeMaze").innerText="";
+            },800);
+
+            return;
+        }
+
+        // Movimiento válido
+        player.x=newX;
+        player.y=newY;
+
+        if(player.x===goal.x && player.y===goal.y){
+            ganar();
         }
 
         draw();
@@ -102,7 +106,8 @@ const goal = { x:7, y:7 };
 
     function ganar(){
 
-        document.getElementById("missionMusic").pause();
+        const music = document.getElementById("missionMusic");
+        if(music) music.pause();
 
         document.getElementById("mensajeMaze").innerHTML=
         "💖 Lo logramos 💖<br><br>Siempre terminamos en casa 🏡♾️";
@@ -166,6 +171,7 @@ const goal = { x:7, y:7 };
     window.explosionAmor = function(){
 
         const emojis = ["💖","💋","🎆","✨"];
+
         for(let i=0;i<40;i++){
             const span = document.createElement("span");
             span.className="particle";
@@ -173,6 +179,7 @@ const goal = { x:7, y:7 };
             span.style.left = Math.random()*100+"vw";
             span.style.bottom = "0px";
             span.style.fontSize = (20 + Math.random()*20)+"px";
+
             document.body.appendChild(span);
 
             setTimeout(()=> span.remove(),3000);
