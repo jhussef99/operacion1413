@@ -1,25 +1,30 @@
-// ===== LABERINTO ANGELO ❤️ DANIELY =====
-
 function iniciarLaberinto() {
 
     const mazeScreen = document.getElementById("mazeScreen");
+    mazeScreen.innerHTML = "";
+    mazeScreen.style.background = "linear-gradient(180deg,#1e0033,#000)";
 
-    mazeScreen.innerHTML = `
-        <div id="laberintoContainer" style="text-align:center;">
-            <h2>🏠 Guía a Daniely hasta nuestro hogar 🏠</h2>
-            <canvas id="mazeCanvas" width="280" height="280"></canvas>
-            <div style="margin-top:15px;">
-                <button onclick="mover('up')">⬆️</button><br>
-                <button onclick="mover('left')">⬅️</button>
-                <button onclick="mover('down')">⬇️</button>
-                <button onclick="mover('right')">➡️</button>
-            </div>
-            <p id="mensajeMaze"></p>
+    const container = document.createElement("div");
+    container.style.textAlign = "center";
+    container.style.paddingTop = "40px";
+    container.style.color = "white";
+    container.innerHTML = `
+        <h2>🏡 Encuentra nuestro hogar 🏡</h2>
+        <canvas id="mazeCanvas" width="280" height="280" style="background:#111;border-radius:15px;"></canvas>
+        <div style="margin-top:20px;">
+            <button onclick="mover('up')">⬆️</button><br>
+            <button onclick="mover('left')">⬅️</button>
+            <button onclick="mover('down')">⬇️</button>
+            <button onclick="mover('right')">➡️</button>
         </div>
+        <p id="mensajeMaze" style="margin-top:20px;"></p>
     `;
+
+    mazeScreen.appendChild(container);
 
     const canvas = document.getElementById("mazeCanvas");
     const ctx = canvas.getContext("2d");
+
     const tileSize = 40;
 
     const maze = [
@@ -35,90 +40,100 @@ function iniciarLaberinto() {
     let player = { x:1, y:1 };
     const goal = { x:5, y:5 };
 
-    function draw() {
+    function draw(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
 
         for(let y=0;y<maze.length;y++){
             for(let x=0;x<maze[y].length;x++){
-                if(maze[y][x] === 1){
-                    ctx.fillStyle = "#444";
+                if(maze[y][x]===1){
+                    ctx.fillStyle="#333";
                     ctx.fillRect(x*tileSize,y*tileSize,tileSize,tileSize);
                 }
             }
         }
 
-        ctx.font = "30px Arial";
-        ctx.fillText("👫🏻", player.x*tileSize+5, player.y*tileSize+32);
-        ctx.fillText("🏡", goal.x*tileSize+5, goal.y*tileSize+32);
+        ctx.font="28px Arial";
+        ctx.fillText("👫🏻",player.x*tileSize+4,player.y*tileSize+32);
+        ctx.fillText("🏡",goal.x*tileSize+4,goal.y*tileSize+32);
     }
 
-    window.mover = function(direction){
-        let newX = player.x;
-        let newY = player.y;
+    window.mover=function(direction){
+        let newX=player.x;
+        let newY=player.y;
 
-        if(direction === "up") newY--;
-        if(direction === "down") newY++;
-        if(direction === "left") newX--;
-        if(direction === "right") newX++;
+        if(direction==="up") newY--;
+        if(direction==="down") newY++;
+        if(direction==="left") newX--;
+        if(direction==="right") newX++;
 
-        if(maze[newY][newX] === 1){
-            navigator.vibrate?.(200);
-            document.getElementById("mensajeMaze").innerText =
-                "Ey… ese no es el camino a casa 😏";
-            player = { x:1, y:1 };
-            setTimeout(()=>{
-                document.getElementById("mensajeMaze").innerText="";
-            },1000);
-        } else {
-            player.x = newX;
-            player.y = newY;
-
-            if(player.x === goal.x && player.y === goal.y){
-                ganar();
-            }
+        if(maze[newY][newX]===1){
+            if(navigator.vibrate) navigator.vibrate(150);
+            player={x:1,y:1};
+            document.getElementById("mensajeMaze").innerText="Ese no es el camino 😏";
+            setTimeout(()=>document.getElementById("mensajeMaze").innerText="",1000);
+        }else{
+            player.x=newX;
+            player.y=newY;
+            if(player.x===goal.x && player.y===goal.y) ganar();
         }
 
         draw();
     }
 
+    document.addEventListener("keydown",function(e){
+        if(e.key==="ArrowUp") mover("up");
+        if(e.key==="ArrowDown") mover("down");
+        if(e.key==="ArrowLeft") mover("left");
+        if(e.key==="ArrowRight") mover("right");
+    });
+
     function ganar(){
 
-        mazeScreen.innerHTML = `
-            <div style="
-                min-height:100vh;
-                display:flex;
-                flex-direction:column;
-                justify-content:center;
-                align-items:center;
-                animation:fadeIn 1.5s ease;
-            ">
-                <div style="font-size:70px; animation:pop 1s infinite alternate;">
-                    🏡💖
+        // 🔥 mantener tu sistema de música
+        document.getElementById("missionMusic").pause();
+
+        document.getElementById("mensajeMaze").innerHTML=
+        "💖 Lo logramos 💖<br><br>Siempre terminamos en casa 🏡♾️";
+
+        canvas.style.boxShadow="0 0 40px #ff2e9f";
+
+        // Esperar y mostrar pantalla final
+        setTimeout(mostrarPantallaFinal, 2500);
+    }
+
+    function mostrarPantallaFinal(){
+
+        document.body.style.opacity="0";
+
+        setTimeout(()=>{
+
+            mazeScreen.innerHTML = `
+                <div style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:black;color:#ff4df8;text-align:center;">
+                    
+                    <h1 style="font-size:28px;animation:glow 2s infinite alternate;">♾️</h1>
+                    
+                    <h2 style="margin-top:30px;">Angelo 💘 Daniely</h2>
+                    
+                    <p style="margin-top:20px;font-size:12px;max-width:300px;">
+                        No importa cuántas vueltas demos,<br>
+                        siempre elegimos el mismo destino:<br><br>
+                        Nuestro hogar 🏡✨
+                    </p>
                 </div>
+            `;
 
-                <p style="margin-top:40px; font-size:12px; line-height:1.8;">
-                    Lo logramos...<br><br>
-                    No importa cuántos caminos haya,<br>
-                    siempre terminamos en el mismo lugar.<br><br>
-                    Juntos. ♾️💘
-                </p>
-
-                <div style="margin-top:40px; font-size:40px;">
-                    ✨ THE END ✨
-                </div>
-            </div>
-
-            <style>
-                @keyframes fadeIn{
-                    from{opacity:0;}
-                    to{opacity:1;}
+            const style = document.createElement("style");
+            style.innerHTML = `
+                @keyframes glow{
+                    from{ text-shadow:0 0 10px #ff2e9f; transform:scale(1);}
+                    to{ text-shadow:0 0 30px #ff9bf5; transform:scale(1.1);}
                 }
-                @keyframes pop{
-                    from{transform:scale(1);}
-                    to{transform:scale(1.2);}
-                }
-            </style>
-        `;
+            `;
+            document.head.appendChild(style);
+
+            document.body.style.opacity="1";
+
+        },1000);
     }
 
     draw();
