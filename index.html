@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Beibii 💖</title>
+<title>Angelo y Daniely 💖</title>
 
 <style>
 body{
@@ -12,23 +12,45 @@ font-family:'Courier New',monospace;
 background:linear-gradient(to bottom,#ff8ac6,#b784f7);
 text-align:center;
 color:white;
-overflow-x:hidden;
+overflow:hidden;
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
 
-h1{margin-top:30px;font-size:22px;}
+h1{font-size:22px;margin-bottom:10px;}
+h2{font-size:20px;padding:0 20px;}
 
-#contador{margin:15px;font-size:16px;}
+#contador{
+margin:15px;
+font-size:14px;
+}
+
+.buttons{
+position:relative;
+width:100%;
+height:120px;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:20px;
+}
 
 button{
 padding:14px 22px;
-margin:10px;
 font-size:18px;
 border:none;
 border-radius:15px;
 cursor:pointer;
+transition:0.3s;
 }
 
-#siBtn{background:white;color:#ff4fa3;}
+#siBtn{
+background:white;
+color:#ff4fa3;
+}
 
 #noBtn{
 background:#ff4fa3;
@@ -55,14 +77,16 @@ pointer-events:none;
 
 <body>
 
-<h1>💖 Angelo & Beibii 💖</h1>
+<h1>💖 Angelo y Daniely 💖</h1>
 
 <div id="contador"></div>
 
 <h2>¿Quieres ser mi 14.ª vez este 14 de febrero, Beibii? 💘</h2>
 
+<div class="buttons">
 <button id="siBtn">Sí 😍</button>
 <button id="noBtn">No 😏</button>
+</div>
 
 <div id="pixelArt">
 🏠❤️ Nuestro futuro hogar ❤️🏠
@@ -85,13 +109,16 @@ pointer-events:none;
 
 // 🎵 Activar música
 const music=document.getElementById("bgMusic");
-document.addEventListener("click",()=>{
+function activarMusica(){
 music.play().catch(()=>{});
-},{once:true});
+document.removeEventListener("click",activarMusica);
+document.removeEventListener("touchstart",activarMusica);
+}
+document.addEventListener("click",activarMusica);
+document.addEventListener("touchstart",activarMusica);
 
 // ⏳ CONTADOR
 const inicio=new Date("2013-01-11T00:00:00");
-
 function actualizar(){
 const ahora=new Date();
 const diff=ahora-inicio;
@@ -102,33 +129,33 @@ const minutos=Math.floor((diff/(1000*60))%60);
 const segundos=Math.floor((diff/1000)%60);
 
 document.getElementById("contador").innerHTML=
-`⏳ Juntos desde 11/01/2013 💕<br>
+`Juntos desde 11/01/2013 💕<br>
 ${dias} días ${horas}h ${minutos}m ${segundos}s`;
 }
-
 setInterval(actualizar,1000);
 actualizar();
 
-// 😈 Botón No que huye
+// 😈 Botón No móvil-friendly
 const noBtn=document.getElementById("noBtn");
 
 function mover(){
-const x=Math.random()*(window.innerWidth-100);
-const y=Math.random()*(window.innerHeight-100);
-noBtn.style.left=x+"px";
-noBtn.style.top=y+"px";
+const maxX=window.innerWidth-100;
+const maxY=window.innerHeight-100;
+noBtn.style.left=Math.random()*maxX+"px";
+noBtn.style.top=Math.random()*maxY+"px";
 }
 
-noBtn.addEventListener("mouseover",mover);
+noBtn.addEventListener("touchstart",mover);
 noBtn.addEventListener("click",mover);
 
-// 💖 Sí
+// 💖 Al presionar Sí
 document.getElementById("siBtn").addEventListener("click",()=>{
+document.querySelector(".buttons").style.display="none";
 document.getElementById("pixelArt").style.display="block";
 lanzarFuegos();
 });
 
-// 🎆 Fuegos
+// 🎆 Fuegos artificiales
 const canvas=document.getElementById("fireworks");
 const ctx=canvas.getContext("2d");
 
@@ -138,20 +165,19 @@ canvas.height=window.innerHeight;
 let particles=[];
 
 function lanzarFuegos(){
-for(let i=0;i<120;i++){
+for(let i=0;i<150;i++){
 particles.push({
 x:canvas.width/2,
 y:canvas.height/2,
-dx:(Math.random()-0.5)*8,
-dy:(Math.random()-0.5)*8,
-life:100
+dx:(Math.random()-0.5)*10,
+dy:(Math.random()-0.5)*10,
+life:120
 });
 }
 }
 
 function animar(){
 ctx.clearRect(0,0,canvas.width,canvas.height);
-
 particles.forEach((p,i)=>{
 p.x+=p.dx;
 p.y+=p.dy;
@@ -164,7 +190,6 @@ ctx.fill();
 
 if(p.life<=0)particles.splice(i,1);
 });
-
 requestAnimationFrame(animar);
 }
 animar();
