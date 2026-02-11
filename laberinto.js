@@ -152,7 +152,7 @@ function iniciarLaberinto() {
 
     window.explosionAmor = function(){
 
-        const emojis = ["💖","💋","🎆","✨","💕"];
+        const emojis = ["💖","💋","🎆","✨"];
         for(let i=0;i<40;i++){
             const span = document.createElement("span");
             span.className="particle";
