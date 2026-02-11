@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+[11:10 p.m., 10/2/2026] Angelo Delgado: <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -43,157 +43,101 @@ padding:14px 22px;
 font-size:18px;
 border:none;
 border-radius:15px;
-cursor:pointer;
-transition:0.3s;
+cursor:pointer;…
+[11:14 p.m., 10/2/2026] Angelo Delgado: <!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Angelo & Daniely ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ff7eb3, #8e44ad);
+    font-family: 'Courier New', monospace;
+    text-align: center;
+    overflow: hidden;
 }
 
-#siBtn{
-background:white;
-color:#ff4fa3;
+.container {
+    color: white;
 }
 
-#noBtn{
-background:#ff4fa3;
-color:white;
-position:absolute;
+h1 {
+    font-size: 26px;
 }
 
-#pixelArt{
-display:none;
-white-space:pre;
-font-size:12px;
-line-height:14px;
-margin-top:20px;
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 10px;
+    transition: 0.3s;
 }
 
-canvas{
-position:fixed;
-top:0;
-left:0;
-pointer-events:none;
+#yesBtn {
+    background: white;
+}
+
+#noBtn {
+    background: hotpink;
+    color: white;
+    position: absolute;
+}
+
+.hidden {
+    display: none;
 }
 </style>
 </head>
 
 <body>
 
-<h1>💖 Angelo y Daniely 💖</h1>
+<div class="container">
+    <h1>💖 Angelo & Daniely 💖</h1>
+    <h2 id="question">
+        ¿Quieres ser mi 14.a vez este 14 de febrero, Daniely? 💘
+    </h2>
 
-<div id="contador"></div>
+    <div id="buttons">
+        <button id="yesBtn">Sí 😍</button>
+        <button id="noBtn">No 😏</button>
+    </div>
 
-<h2>¿Quieres ser mi 14.ª vez este 14 de febrero, Beibii? 💘</h2>
-
-<div class="buttons">
-<button id="siBtn">Sí 😍</button>
-<button id="noBtn">No 😏</button>
+    <h2 id="finalMessage" class="hidden">
+        🎉 Sabía que dirías que sí ❤️  
+        Te amo demasiado Daniely 💕
+    </h2>
 </div>
-
-<div id="pixelArt">
-🏠❤️ Nuestro futuro hogar ❤️🏠
-
-🟫🟫🟫🟫🟫🟫🟫🟫🟫🟫
-🟫🏠🏠🏠🟫🌤🟫🟫🟫🟫
-🟫🏠❤️🏠🟫🌤🟫🟫🟫🟫
-🟫🏠🏠🏠🟫🌤🟫🟫🟫🟫
-🟫🟫🟫🟫🛤🛤🛤🛤🟫🟫
-🟫👩🏻‍❤️‍👨🏻🟫🟫🟫🟫🟫🟫🟫
-</div>
-
-<canvas id="fireworks"></canvas>
-
-<audio id="bgMusic" loop>
-<source src="musica.mp3" type="audio/mpeg">
-</audio>
 
 <script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const finalMessage = document.getElementById("finalMessage");
+const question = document.getElementById("question");
+const buttons = document.getElementById("buttons");
 
-// 🎵 Activar música
-const music=document.getElementById("bgMusic");
-function activarMusica(){
-music.play().catch(()=>{});
-document.removeEventListener("click",activarMusica);
-document.removeEventListener("touchstart",activarMusica);
-}
-document.addEventListener("click",activarMusica);
-document.addEventListener("touchstart",activarMusica);
-
-// ⏳ CONTADOR
-const inicio=new Date("2013-01-11T00:00:00");
-function actualizar(){
-const ahora=new Date();
-const diff=ahora-inicio;
-
-const dias=Math.floor(diff/(1000*60*60*24));
-const horas=Math.floor((diff/(1000*60*60))%24);
-const minutos=Math.floor((diff/(1000*60))%60);
-const segundos=Math.floor((diff/1000)%60);
-
-document.getElementById("contador").innerHTML=
-`Juntos desde 11/01/2013 💕<br>
-${dias} días ${horas}h ${minutos}m ${segundos}s`;
-}
-setInterval(actualizar,1000);
-actualizar();
-
-// 😈 Botón No móvil-friendly
-const noBtn=document.getElementById("noBtn");
-
-function mover(){
-const maxX=window.innerWidth-100;
-const maxY=window.innerHeight-100;
-noBtn.style.left=Math.random()*maxX+"px";
-noBtn.style.top=Math.random()*maxY+"px";
-}
-
-noBtn.addEventListener("touchstart",mover);
-noBtn.addEventListener("click",mover);
-
-// 💖 Al presionar Sí
-document.getElementById("siBtn").addEventListener("click",()=>{
-document.querySelector(".buttons").style.display="none";
-document.getElementById("pixelArt").style.display="block";
-lanzarFuegos();
+// Mover botón NO
+noBtn.addEventListener("click", () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
 });
 
-// 🎆 Fuegos artificiales
-const canvas=document.getElementById("fireworks");
-const ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let particles=[];
-
-function lanzarFuegos(){
-for(let i=0;i<150;i++){
-particles.push({
-x:canvas.width/2,
-y:canvas.height/2,
-dx:(Math.random()-0.5)*10,
-dy:(Math.random()-0.5)*10,
-life:120
+// Botón SI
+yesBtn.addEventListener("click", () => {
+    question.classList.add("hidden");
+    buttons.classList.add("hidden");
+    finalMessage.classList.remove("hidden");
 });
-}
-}
-
-function animar(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-particles.forEach((p,i)=>{
-p.x+=p.dx;
-p.y+=p.dy;
-p.life--;
-
-ctx.beginPath();
-ctx.arc(p.x,p.y,3,0,Math.PI*2);
-ctx.fillStyle=hsl(${Math.random()*360},100%,70%);
-ctx.fill();
-
-if(p.life<=0)particles.splice(i,1);
-});
-requestAnimationFrame(animar);
-}
-animar();
-
 </script>
 
 </body>
