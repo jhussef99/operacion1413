@@ -84,10 +84,19 @@ button:disabled{
 }
 
 .lock{font-size:60px;margin:20px 0;transition:all 0.5s ease;}
-.unlock{animation:unlockAnim 0.8s ease forwards;}
+
+.unlock{
+  animation:unlockAnim 0.8s ease forwards;
+}
 
 @keyframes unlockAnim{
-  50%{transform:scale(1.3) rotate(-15deg);}
+  50%{transform:scale(1.4) rotate(-15deg);}
+}
+
+@keyframes pulseInf{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.2);}
+  100%{transform:scale(1);}
 }
 </style>
 </head>
@@ -156,6 +165,17 @@ Y amarnos infinito ♾️💘</p>
 <button id="acceptBtn" onclick="celebrate()" disabled>💖 Aceptar</button>
 </div>
 
+<!-- Pantalla Infinito -->
+<div class="screen" id="infiniteScreen">
+  <div style="font-size:80px; animation:pulseInf 1.5s infinite;">
+    ♾️
+  </div>
+  <p style="margin-top:40px;">
+    Nuestro amor no tiene salida…<br>
+    solo destino 💘
+  </p>
+</div>
+
 <div class="screen" id="mazeScreen"></div>
 
 <script src="laberinto.js"></script>
@@ -198,13 +218,19 @@ function checkAnswer(){
 
 function chooseOption(option, element){
   let msg=document.getElementById("optionMessage");
+
   if(option==="casita"){
     msg.innerHTML="Correcto 💞 Nuestro hogar comienza con nosotros.";
     setTimeout(()=>goTo('screen6'),1500);
-  }else{
-    msg.innerHTML="Hmm… interesante opción 😂";
-    element.classList.add("shake");
+  }else if(option==="suegros"){
+    msg.innerHTML="JAJAJA tú lo que quieres es comida gratis 😏";
+  }else if(option==="oscar"){
+    msg.innerHTML="Óscar no está listo para esta responsabilidad 😂";
+  }else if(option==="twingo"){
+    msg.innerHTML="Romántico… pero incómodo 🚗😂";
   }
+
+  element.classList.add("shake");
   if(navigator.vibrate) navigator.vibrate(100);
 }
 
@@ -224,7 +250,9 @@ function checkSecret(){
   let code=document.getElementById("secretCode").value.trim();
   if(code==="110113"){
     document.getElementById("secretMessage").innerHTML="Misión desbloqueada 💘";
-    document.getElementById("lockIcon").innerHTML="🔓";
+    let lock=document.getElementById("lockIcon");
+    lock.innerHTML="🔓";
+    lock.classList.add("unlock");
     unlocked=true;
     document.getElementById("acceptBtn").disabled=false;
   }else{
@@ -239,10 +267,19 @@ function celebrate(){
 
   setTimeout(()=>{
     document.getElementById("bgMusic").pause();
-    document.getElementById("missionMusic").play();
-    goTo('mazeScreen');
-    iniciarLaberinto();
+    goTo('infiniteScreen');
     document.body.style.opacity="1";
+
+    setTimeout(()=>{
+      document.body.style.opacity="0";
+      setTimeout(()=>{
+        document.getElementById("missionMusic").play();
+        goTo('mazeScreen');
+        iniciarLaberinto();
+        document.body.style.opacity="1";
+      },1000);
+    },3000);
+
   },1000);
 }
 </script>
