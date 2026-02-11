@@ -25,27 +25,40 @@ function iniciarLaberinto() {
     const canvas = document.getElementById("mazeCanvas");
     const ctx = canvas.getContext("2d");
 
-    const tileSize = 40;
+    const tileSize = 30; // más pequeño porque ahora es más grande
 
-    const maze = [
-        [1,1,1,1,1,1,1],
-        [1,0,0,0,0,0,1],
-        [1,0,1,1,1,0,1],
-        [1,0,1,0,1,0,1],
-        [1,0,0,0,1,0,1],
-        [1,1,1,0,0,0,1],
-        [1,1,1,1,1,1,1]
-    ];
+const maze = [
+[1,1,1,1,1,1,1,1,1],
+[1,0,0,0,1,0,0,0,1],
+[1,0,1,0,1,0,1,0,1],
+[1,0,1,0,0,0,1,0,1],
+[1,0,1,1,1,0,1,0,1],
+[1,0,0,0,1,0,1,0,1],
+[1,1,1,0,1,0,1,0,1],
+[1,0,0,0,0,0,1,0,1],
+[1,1,1,1,1,1,1,1,1]
+];
 
-    let player = { x:1, y:1 };
-    const goal = { x:5, y:5 };
+let player = { x:1, y:1 };
+const goal = { x:7, y:7 };
 
     function draw(){
         ctx.clearRect(0,0,canvas.width,canvas.height);
 
         for(let y=0;y<maze.length;y++){
             for(let x=0;x<maze[y].length;x++){
-                if(maze[y][x]===1){
+                if(maze[newY][newX]===1){
+
+    if(navigator.vibrate) navigator.vibrate(100);
+
+    document.getElementById("mensajeMaze").innerText="Mmm… intenta otro camino 😏";
+
+    setTimeout(()=> 
+        document.getElementById("mensajeMaze").innerText=""
+    ,800);
+
+    return; // no reinicia, solo bloquea el movimiento
+}
                     ctx.fillStyle="#333";
                     ctx.fillRect(x*tileSize,y*tileSize,tileSize,tileSize);
                 }
