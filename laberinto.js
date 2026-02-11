@@ -89,7 +89,6 @@ function iniciarLaberinto() {
 
     function ganar(){
 
-        // 🔥 mantener tu sistema de música
         document.getElementById("missionMusic").pause();
 
         document.getElementById("mensajeMaze").innerHTML=
@@ -97,7 +96,6 @@ function iniciarLaberinto() {
 
         canvas.style.boxShadow="0 0 40px #ff2e9f";
 
-        // Esperar y mostrar pantalla final
         setTimeout(mostrarPantallaFinal, 2500);
     }
 
@@ -108,7 +106,7 @@ function iniciarLaberinto() {
         setTimeout(()=>{
 
             mazeScreen.innerHTML = `
-                <div style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:black;color:#ff4df8;text-align:center;">
+                <div style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;background:black;color:#ff4df8;text-align:center;overflow:hidden;position:relative;">
                     
                     <h1 style="font-size:28px;animation:glow 2s infinite alternate;">♾️</h1>
                     
@@ -117,8 +115,13 @@ function iniciarLaberinto() {
                     <p style="margin-top:20px;font-size:12px;max-width:300px;">
                         No importa cuántas vueltas demos,<br>
                         siempre elegimos el mismo destino:<br><br>
-                        Ser felices juntos 🏡✨
+                        Nuestro hogar 🏡✨
                     </p>
+
+                    <button onclick="explosionAmor()" 
+                        style="margin-top:30px;padding:12px 20px;border:none;border-radius:20px;background:#ff2e9f;color:white;font-weight:bold;">
+                        💖 Celebrar Amor 💖
+                    </button>
                 </div>
             `;
 
@@ -128,12 +131,41 @@ function iniciarLaberinto() {
                     from{ text-shadow:0 0 10px #ff2e9f; transform:scale(1);}
                     to{ text-shadow:0 0 30px #ff9bf5; transform:scale(1.1);}
                 }
+                .particle{
+                    position:absolute;
+                    font-size:20px;
+                    animation:fall 3s linear forwards;
+                }
+                @keyframes fall{
+                    to{
+                        transform:translateY(-600px) rotate(720deg);
+                        opacity:0;
+                    }
+                }
             `;
             document.head.appendChild(style);
 
             document.body.style.opacity="1";
 
         },1000);
+    }
+
+    window.explosionAmor = function(){
+
+        const emojis = ["💖","💋","🎆","✨","💕"];
+        for(let i=0;i<40;i++){
+            const span = document.createElement("span");
+            span.className="particle";
+            span.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+            span.style.left = Math.random()*100+"vw";
+            span.style.bottom = "0px";
+            span.style.fontSize = (20 + Math.random()*20)+"px";
+            document.body.appendChild(span);
+
+            setTimeout(()=> span.remove(),3000);
+        }
+
+        if(navigator.vibrate) navigator.vibrate([100,50,100]);
     }
 
     draw();
