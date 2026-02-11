@@ -15,6 +15,7 @@ body{
   color:white;
   text-align:center;
   overflow-x:hidden;
+  transition:opacity 1s ease;
 }
 
 .screen{
@@ -56,7 +57,6 @@ button:disabled{
   z-index:10;
 }
 
-/* NUEVO ESTILO INTERACTIVO */
 .choice-btn{
   background: rgba(255,255,255,0.2);
   backdrop-filter: blur(6px);
@@ -76,37 +76,18 @@ button:disabled{
   box-shadow:0 0 25px #fff;
 }
 
-.choice-btn:active{
-  transform:scale(0.95);
-}
-
-.shake{
-  animation:shake 0.4s;
-}
-
+.shake{animation:shake 0.4s;}
 @keyframes shake{
-  0%{transform:translateX(0);}
   25%{transform:translateX(-6px);}
   50%{transform:translateX(6px);}
   75%{transform:translateX(-6px);}
-  100%{transform:translateX(0);}
 }
 
-/* CANDADO */
-.lock{
-  font-size:60px;
-  margin:20px 0;
-  transition:all 0.5s ease;
-}
-
-.unlock{
-  animation:unlockAnim 0.8s ease forwards;
-}
+.lock{font-size:60px;margin:20px 0;transition:all 0.5s ease;}
+.unlock{animation:unlockAnim 0.8s ease forwards;}
 
 @keyframes unlockAnim{
-  0%{transform:scale(1) rotate(0);}
   50%{transform:scale(1.3) rotate(-15deg);}
-  100%{transform:scale(1) rotate(0);}
 }
 </style>
 </head>
@@ -119,7 +100,10 @@ button:disabled{
 <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
-<!-- PANTALLA 1 -->
+<audio id="missionMusic" loop>
+<source src="musica_mision.mp3" type="audio/mpeg">
+</audio>
+
 <div class="screen active" id="screen1">
 <h3 id="typeText"></h3>
 <button onclick="goTo('screen2')">💖 Sí</button>
@@ -127,7 +111,6 @@ button:disabled{
 <p id="noText" class="small"></p>
 </div>
 
-<!-- PANTALLA 2 -->
 <div class="screen" id="screen2">
 <p>Desde el 11 de enero de 2013 existe una palabra que no está en el diccionario... 💌<br><br>
 pero significa hogar, risa y amor.<br><br>
@@ -137,7 +120,6 @@ pero significa hogar, risa y amor.<br><br>
 <p id="result" class="small"></p>
 </div>
 
-<!-- PANTALLA 3 -->
 <div class="screen" id="screen3">
 <p>Daniely 💕<br><br>
 No eres casualidad.<br><br>
@@ -148,34 +130,19 @@ con quien quiero un hogar 🏠✨</p>
 <button onclick="goTo('screen4')">Siguiente ➡️</button>
 </div>
 
-<!-- PANTALLA 4 INTERACTIVA -->
 <div class="screen" id="screen4">
-<h2 style="margin-bottom:30px;">El próximo 14 de febrero dónde viviremos? 💞</h2>
+<h2>El próximo 14 de febrero dónde viviremos? 💞</h2>
 
-<div class="choice-btn" onclick="chooseOption('suegros', this)">
-😶‍🌫️ Casa de los suegros
-</div>
-
-<div class="choice-btn" onclick="chooseOption('oscar', this)">
-🤣 Cuarto en casa de Óscar
-</div>
-
-<div class="choice-btn" onclick="chooseOption('casita', this)">
-💞 Nuestra casita
-</div>
-
-<div class="choice-btn" onclick="chooseOption('twingo', this)">
-🚗 En el Twingo
-</div>
+<div class="choice-btn" onclick="chooseOption('suegros', this)">😶‍🌫️ Casa de los suegros</div>
+<div class="choice-btn" onclick="chooseOption('oscar', this)">🤣 Cuarto en casa de Óscar</div>
+<div class="choice-btn" onclick="chooseOption('casita', this)">💞 Nuestra casita</div>
+<div class="choice-btn" onclick="chooseOption('twingo', this)">🚗 En el Twingo</div>
 
 <p id="optionMessage" class="small"></p>
 </div>
 
-<!-- FINAL -->
 <div class="screen" id="screen6">
-
 <p id="counter"></p>
-
 <div id="lockIcon" class="lock">🔒</div>
 
 <p>Lista para completar la misión:<br><br>
@@ -189,23 +156,17 @@ Y amarnos infinito ♾️💘</p>
 <button id="acceptBtn" onclick="celebrate()" disabled>💖 Aceptar</button>
 </div>
 
-<!-- PANTALLA SECRETA -->
-<div class="screen" id="secretScreen">
-<h2>Angelo + Daniely ♾️</h2>
-<p>11•01•13 ∞</p>
-<p>Proyecto siguiente: Nuestro hogar 🏠💘</p>
-</div>
+<div class="screen" id="mazeScreen"></div>
+
+<script src="laberinto.js"></script>
 
 <script>
-
-// TEXTO INICIAL
 let text="¿Quieres ser mi 14 de febrero por 14.ª vez? 🥹💘";
 let i=0;
 function typeWriter(){
   if(i<text.length){
     document.getElementById("typeText").innerHTML+=text.charAt(i);
-    i++;
-    setTimeout(typeWriter,40);
+    i++; setTimeout(typeWriter,40);
   }
 }
 typeWriter();
@@ -216,8 +177,7 @@ function noMessage(){
 
 function toggleMusic(){
   let music=document.getElementById("bgMusic");
-  if(music.paused){ music.play(); }
-  else{ music.pause(); }
+  music.paused?music.play():music.pause();
 }
 
 function goTo(screen){
@@ -226,7 +186,6 @@ function goTo(screen){
   window.scrollTo(0,0);
 }
 
-// ACERTIJO
 function checkAnswer(){
   let val=document.getElementById("answer").value.toLowerCase().trim();
   if(val==="beibii"){
@@ -237,91 +196,54 @@ function checkAnswer(){
   }
 }
 
-// PANTALLA 4 LÓGICA INTERACTIVA
 function chooseOption(option, element){
   let msg=document.getElementById("optionMessage");
-
-  document.querySelectorAll(".choice-btn").forEach(btn=>{
-    btn.classList.remove("shake");
-  });
-
-  if(option==="suegros"){
-    msg.innerHTML="28 años son suficiente sin pagar alquiler 🤣❌";
-    element.classList.add("shake");
-  }
-  else if(option==="oscar"){
-    msg.innerHTML="Deberíamos más bien quitarle la casa completa 🥷🏻";
-    element.classList.add("shake");
-  }
-  else if(option==="twingo"){
-    msg.innerHTML="Tendríamos bastante espacio para la cama pero está difícil ir al baño jajajaja";
-    element.classList.add("shake");
-  }
-  else if(option==="casita"){
+  if(option==="casita"){
     msg.innerHTML="Correcto 💞 Nuestro hogar comienza con nosotros.";
-    element.style.background="#00ffae";
-    element.style.color="#000";
     setTimeout(()=>goTo('screen6'),1500);
+  }else{
+    msg.innerHTML="Hmm… interesante opción 😂";
+    element.classList.add("shake");
   }
-
-  if(navigator.vibrate){
-    navigator.vibrate(100);
-  }
+  if(navigator.vibrate) navigator.vibrate(100);
 }
 
-// CONTADOR
 const start=new Date("2013-01-11T00:00:00");
-
 function updateCounter(){
-  const now=new Date();
-  const diff=now-start;
-
+  const diff=new Date()-start;
   const days=Math.floor(diff/(1000*60*60*24));
-  const hours=Math.floor((diff/(1000*60*60))%24);
-  const minutes=Math.floor((diff/(1000*60))%60);
-  const seconds=Math.floor((diff/1000)%60);
-
   document.getElementById("counter").innerHTML=
-  "Angelo 💘 Daniely<br><br>"+
-  days+" días<br>"+
-  hours+" horas<br>"+
-  minutes+" minutos<br>"+
-  seconds+" segundos juntos 💖";
+  "Angelo 💘 Daniely<br><br>"+days+" días juntos 💖";
 }
 setInterval(updateCounter,1000);
 updateCounter();
 
-// CLAVE OBLIGATORIA + CANDADO
 let unlocked=false;
 
 function checkSecret(){
   let code=document.getElementById("secretCode").value.trim();
-  let lock=document.getElementById("lockIcon");
-
   if(code==="110113"){
-    document.getElementById("secretMessage").innerHTML=
-    "veamos que tantas vueltas das en la siguiente misión";
-
-    lock.innerHTML="🔓";
-    lock.classList.add("unlock");
-
+    document.getElementById("secretMessage").innerHTML="Misión desbloqueada 💘";
+    document.getElementById("lockIcon").innerHTML="🔓";
     unlocked=true;
     document.getElementById("acceptBtn").disabled=false;
-
-    if(navigator.vibrate){
-      navigator.vibrate([200,100,200]);
-    }
-
   }else{
     document.getElementById("secretMessage").innerHTML="Clave incorrecta 😏";
-    unlocked=false;
-    document.getElementById("acceptBtn").disabled=true;
   }
 }
 
 function celebrate(){
   if(!unlocked) return;
-  goTo('secretScreen');
+
+  document.body.style.opacity="0";
+
+  setTimeout(()=>{
+    document.getElementById("bgMusic").pause();
+    document.getElementById("missionMusic").play();
+    goTo('mazeScreen');
+    iniciarLaberinto();
+    document.body.style.opacity="1";
+  },1000);
 }
 </script>
 
