@@ -1,41 +1,4 @@
-[10:54 a.m., 11/2/2026] Angelo Delgado: <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Angelo 💘 Daniely</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
-<style>
-body{
-  margin:0;
-  font-family:'Press Start 2P', cursive;
-  background: linear-gradient(180deg,#ff8ecf,#b784f7);
-  color:white;
-  text-align:center;
-  overflow-x:hidden;
-}
-
-.screen{
-  display:none;
-  min-height:100vh;
-  padding:40px 20px 120px 20px;
-  box-sizing:border-box;
-  justify-content:center;
-  align-items:center;
-  flex-direction:column;
-}
-
-.active{display:flex;}
-
-button{
-  margin:15px;
-  padding:14px 18px;
-  font-family:'Press Start 2P', cursive;
-  border:none;
-  border-radius…
-[11:07 a.m., 11/2/2026] Angelo Delgado: <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -85,20 +48,65 @@ button:disabled{
 
 .small{font-size:10px;margin-top:15px;}
 
-.option{
-  margin:10px;
-  padding:14px;
-  border:2px solid white;
-  border-radius:12px;
-  cursor:pointer;
-}
-
 #musicBtn{
   position:fixed;
   top:10px;
   right:10px;
   font-size:10px;
   z-index:10;
+}
+
+/* NUEVO ESTILO INTERACTIVO */
+.choice-btn{
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(6px);
+  border:2px solid white;
+  padding:18px;
+  margin:15px 0;
+  border-radius:20px;
+  width:80%;
+  max-width:350px;
+  cursor:pointer;
+  transition:all 0.25s ease;
+  box-shadow:0 0 15px rgba(255,255,255,0.2);
+}
+
+.choice-btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 25px #fff;
+}
+
+.choice-btn:active{
+  transform:scale(0.95);
+}
+
+.shake{
+  animation:shake 0.4s;
+}
+
+@keyframes shake{
+  0%{transform:translateX(0);}
+  25%{transform:translateX(-6px);}
+  50%{transform:translateX(6px);}
+  75%{transform:translateX(-6px);}
+  100%{transform:translateX(0);}
+}
+
+/* CANDADO */
+.lock{
+  font-size:60px;
+  margin:20px 0;
+  transition:all 0.5s ease;
+}
+
+.unlock{
+  animation:unlockAnim 0.8s ease forwards;
+}
+
+@keyframes unlockAnim{
+  0%{transform:scale(1) rotate(0);}
+  50%{transform:scale(1.3) rotate(-15deg);}
+  100%{transform:scale(1) rotate(0);}
 }
 </style>
 </head>
@@ -140,21 +148,35 @@ con quien quiero un hogar 🏠✨</p>
 <button onclick="goTo('screen4')">Siguiente ➡️</button>
 </div>
 
-<!-- NUEVA PANTALLA 4 -->
+<!-- PANTALLA 4 INTERACTIVA -->
 <div class="screen" id="screen4">
-<p>El próximo 14 de febrero dónde viviremos?</p>
+<h2 style="margin-bottom:30px;">El próximo 14 de febrero dónde viviremos? 💞</h2>
 
-<div class="option" onclick="chooseOption('suegros')">Casa de los suegros 😶‍🌫️</div>
-<div class="option" onclick="chooseOption('oscar')">Cuarto en casa de Óscar 🤣</div>
-<div class="option" onclick="chooseOption('casita')">Nuestra casita 💞</div>
-<div class="option" onclick="chooseOption('twingo')">En el Twingo 🚗</div>
+<div class="choice-btn" onclick="chooseOption('suegros', this)">
+😶‍🌫️ Casa de los suegros
+</div>
+
+<div class="choice-btn" onclick="chooseOption('oscar', this)">
+🤣 Cuarto en casa de Óscar
+</div>
+
+<div class="choice-btn" onclick="chooseOption('casita', this)">
+💞 Nuestra casita
+</div>
+
+<div class="choice-btn" onclick="chooseOption('twingo', this)">
+🚗 En el Twingo
+</div>
 
 <p id="optionMessage" class="small"></p>
 </div>
 
 <!-- FINAL -->
 <div class="screen" id="screen6">
+
 <p id="counter"></p>
+
+<div id="lockIcon" class="lock">🔒</div>
 
 <p>Lista para completar la misión:<br><br>
 Construir hogar 🏠<br>
@@ -204,12 +226,9 @@ function goTo(screen){
   window.scrollTo(0,0);
 }
 
-let attempts=0;
-
+// ACERTIJO
 function checkAnswer(){
   let val=document.getElementById("answer").value.toLowerCase().trim();
-  attempts++;
-
   if(val==="beibii"){
     document.getElementById("result").innerHTML="Exacto 💖 Beibii";
     setTimeout(()=>goTo('screen3'),2000);
@@ -218,22 +237,35 @@ function checkAnswer(){
   }
 }
 
-// NUEVA LÓGICA PANTALLA 4
-function chooseOption(option){
+// PANTALLA 4 LÓGICA INTERACTIVA
+function chooseOption(option, element){
   let msg=document.getElementById("optionMessage");
+
+  document.querySelectorAll(".choice-btn").forEach(btn=>{
+    btn.classList.remove("shake");
+  });
 
   if(option==="suegros"){
     msg.innerHTML="28 años son suficiente sin pagar alquiler 🤣❌";
+    element.classList.add("shake");
   }
   else if(option==="oscar"){
     msg.innerHTML="Deberíamos más bien quitarle la casa completa 🥷🏻";
+    element.classList.add("shake");
   }
   else if(option==="twingo"){
     msg.innerHTML="Tendríamos bastante espacio para la cama pero está difícil ir al baño jajajaja";
+    element.classList.add("shake");
   }
   else if(option==="casita"){
     msg.innerHTML="Correcto 💞 Nuestro hogar comienza con nosotros.";
-    setTimeout(()=>goTo('screen6'),2000);
+    element.style.background="#00ffae";
+    element.style.color="#000";
+    setTimeout(()=>goTo('screen6'),1500);
+  }
+
+  if(navigator.vibrate){
+    navigator.vibrate(100);
   }
 }
 
@@ -259,17 +291,27 @@ function updateCounter(){
 setInterval(updateCounter,1000);
 updateCounter();
 
-// CLAVE OBLIGATORIA
+// CLAVE OBLIGATORIA + CANDADO
 let unlocked=false;
 
 function checkSecret(){
   let code=document.getElementById("secretCode").value.trim();
+  let lock=document.getElementById("lockIcon");
 
   if(code==="110113"){
     document.getElementById("secretMessage").innerHTML=
     "veamos que tantas vueltas das en la siguiente misión";
+
+    lock.innerHTML="🔓";
+    lock.classList.add("unlock");
+
     unlocked=true;
     document.getElementById("acceptBtn").disabled=false;
+
+    if(navigator.vibrate){
+      navigator.vibrate([200,100,200]);
+    }
+
   }else{
     document.getElementById("secretMessage").innerHTML="Clave incorrecta 😏";
     unlocked=false;
