@@ -168,25 +168,35 @@ function iniciarLaberinto() {
         },1000);
     }
 
-    window.explosionAmor = function(){
+ let contadorSecreto = 0;
 
-        const emojis = ["💖","💋","🎆","✨"];
+window.explosionAmor = function(){
 
-        for(let i=0;i<40;i++){
-            const span = document.createElement("span");
-            span.className="particle";
-            span.innerText = emojis[Math.floor(Math.random()*emojis.length)];
-            span.style.left = Math.random()*100+"vw";
-            span.style.bottom = "0px";
-            span.style.fontSize = (20 + Math.random()*20)+"px";
+    contadorSecreto++;
 
-            document.body.appendChild(span);
+    // EFECTO NORMAL
+    const emojis = ["💖","💋","🎆","✨"];
 
-            setTimeout(()=> span.remove(),3000);
-        }
+    for(let i=0;i<40;i++){
+        const span = document.createElement("span");
+        span.className="particle";
+        span.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+        span.style.left = Math.random()*100+"vw";
+        span.style.bottom = "0px";
+        span.style.fontSize = (20 + Math.random()*20)+"px";
 
-        if(navigator.vibrate) navigator.vibrate([100,50,100]);
+        document.body.appendChild(span);
+
+        setTimeout(()=> span.remove(),3000);
     }
+
+    if(navigator.vibrate) navigator.vibrate([100,50,100]);
+
+    // SECRETO A LOS 11 CLICKS
+    if(contadorSecreto === 11){
+        activarCofreSecreto();
+    }
+}
 
     draw();
 }
