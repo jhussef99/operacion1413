@@ -162,7 +162,7 @@ function mostrarMensajeFinal() {
 
 function iniciarMusicaSecreta() {
 
-    const musicaAnterior = document.getElementById("musicaMision");
+    const musicaAnterior = document.getElementById("missionMusic");
     if (musicaAnterior) musicaAnterior.pause();
 
     const audio = new Audio("musica_secreta.mp3");
