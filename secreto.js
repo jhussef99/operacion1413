@@ -25,26 +25,6 @@ function activarCofreSecreto() {
     }, 2500);
 }
 
-    const cofre = document.createElement("img");
-    cofre.src = "cofre.png"; // asegúrate que exista
-    cofre.id = "cofreSecreto";
-    document.body.appendChild(cofre);
-
-    setTimeout(() => {
-        cofre.classList.add("mostrar");
-    }, 100);
-
-    sonarMagico();
-
-    setTimeout(() => {
-        cofre.classList.add("abrir");
-    }, 1500);
-
-    setTimeout(() => {
-        abrirPantallaSecreta();
-        cofre.remove();
-    }, 2500);
-}
 
 // ===========================
 // SONIDO MÁGICO
