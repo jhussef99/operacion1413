@@ -151,8 +151,11 @@ function iniciarScratch() {
         const porcentaje = transparentes / (canvas.width * canvas.height);
 
         if (porcentaje > 0.6) {
-            mostrarMensajeFinal();
-        }
+
+    document.getElementById("instruccionRaspa").style.display = "none";
+
+    mostrarMensajeFinal();
+}
     }
 }
 
@@ -165,16 +168,27 @@ function mostrarMensajeFinal() {
     const mensaje = document.getElementById("mensajeFinal");
     mensaje.classList.add("visible");
 
-    setInterval(() => {
+    let cantidad = 0;
+
+    const intervalo = setInterval(() => {
+
         const corazon = document.createElement("div");
         corazon.className = "corazon";
         corazon.innerHTML = "💖";
         corazon.style.left = Math.random() * window.innerWidth + "px";
         corazon.style.bottom = "0px";
+
         document.body.appendChild(corazon);
 
         setTimeout(() => corazon.remove(), 4000);
-    }, 500);
+
+        cantidad++;
+
+        if (cantidad > 25) {
+            clearInterval(intervalo);
+        }
+
+    }, 200);
 }
 
 // ===========================
